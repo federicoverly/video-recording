@@ -1,5 +1,5 @@
-import { createContext, useState, useEffect, ReactNode, useMemo } from 'react';
-import { User, onIdTokenChanged } from 'firebase/auth';
+import { createContext, useState, ReactNode, useMemo } from 'react';
+import { User } from 'firebase/auth';
 
 interface AuthState {
   user: User | undefined;
@@ -10,16 +10,6 @@ AuthContext.displayName = 'AuthContext';
 
 export function ProvideUser({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | undefined>(undefined);
-
-  useEffect(() => {
-    return onIdTokenChanged((user: User) => {
-      if (user) {
-        setUser(user);
-      } else {
-        setUser(undefined);
-      }
-    });
-  }, []);
 
   const contextValue = useMemo(() => ({ user, setUser }), [user, setUser]);
 
