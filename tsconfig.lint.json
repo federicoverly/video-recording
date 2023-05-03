@@ -1,0 +1,22 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "paths": {
+      "@hydrogrid/design-system": ["./packages/design-system/library/index.ts"],
+      "@hydrogrid/utilities/*": ["./packages/utilities/*"]
+    }
+  },
+  "include": [
+    "packages",
+    "vitest.d.ts",
+    "vite.config.ts",
+    "vitest.config.ts",
+    "packages/**/*.d.ts",
+    ".vscode/*.{js,mjs}",
+    "npm-scripts/*.{js,mjs}",
+    "packages/**/npm-scripts/*.mjs"
+  ]
+}

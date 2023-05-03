@@ -1,0 +1,7 @@
+.temp*/
+build/
+coverage/
+**/out/
+packages/*/dist/
+packages/*/yaml/
+packages/frontend/common/api/**/*.yaml

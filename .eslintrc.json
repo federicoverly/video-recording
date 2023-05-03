@@ -1,0 +1,248 @@
+{
+  "$schema": "https://json.schemastore.org/eslintrc",
+  "extends": ["react-app", "react-app/jest", "plugin:react/recommended", "plugin:react/jsx-runtime", "plugin:jsx-a11y/recommended"],
+  "plugins": ["jsx-a11y"],
+  "ignorePatterns": ["**/coverage/**", "**/dist/**", "**/out/**", "**/build/**", ".eslintrc", ".temp*", "vite.config.ts.*.mjs"],
+  "rules": {
+    // Rules for all files
+    "jsx-a11y/no-autofocus": ["warn", { "ignoreNonDOM": true }],
+
+    // When a variable is never reassigned, use const instead of let
+    "prefer-const": ["warn", { "destructuring": "all" }],
+
+    // Prefer function declarations over arrow functions
+    "react/function-component-definition": [
+      "error",
+      {
+        "namedComponents": "function-declaration",
+        "unnamedComponents": "arrow-function"
+      }
+    ],
+
+    // Prefer <div id="x" /> over <div id={"x"} />
+    "react/jsx-curly-brace-presence": [
+      "warn",
+      {
+        "props": "never",
+        "children": "ignore",
+        "propElementValues": "always"
+      }
+    ],
+
+    // Allow <div>text with "invalid" quotes</div>
+    "react/no-unescaped-entities": ["off"],
+
+    // Allow const MyComp: MappedComponentType = props => { ... }
+    "react/prop-types": [
+      "error",
+      {
+        "ignore": ["as"],
+        "skipUndeclared": true
+      }
+    ],
+
+    "no-restricted-imports": [
+      // https://eslint.org/docs/latest/rules/no-restricted-imports
+      "error",
+      {
+        "paths": [
+          // Node standard libraries should be imported with the node: prefix
+          { "name": "assert", "message": "Please use node:assert instead." },
+          { "name": "buffer", "message": "Please use node:buffer instead." },
+          { "name": "child_process", "message": "Please use node:child_process instead." },
+          { "name": "cluster", "message": "Please use node:cluster instead." },
+          { "name": "crypto", "message": "Please use node:crypto instead." },
+          { "name": "dgram", "message": "Please use node:dgram instead." },
+          { "name": "dns", "message": "Please use node:dns instead." },
+          { "name": "domain", "message": "Please use node:domain instead." },
+          { "name": "events", "message": "Please use node:events instead." },
+          { "name": "fs", "message": "Please use node:fs instead." },
+          { "name": "http", "message": "Please use node:http instead." },
+          { "name": "https", "message": "Please use node:https instead." },
+          { "name": "net", "message": "Please use node:net instead." },
+          { "name": "os", "message": "Please use node:os instead." },
+          { "name": "path", "message": "Please use node:path instead." },
+          { "name": "punycode", "message": "Please use node:punycode instead." },
+          { "name": "querystring", "message": "Please use node:querystring instead." },
+          { "name": "readline", "message": "Please use node:readline instead." },
+          { "name": "stream", "message": "Please use node:stream instead." },
+          { "name": "string_decoder", "message": "Please use node:string_decoder instead." },
+          { "name": "timers", "message": "Please use node:timers instead." },
+          { "name": "tls", "message": "Please use node:tls instead." },
+          { "name": "tty", "message": "Please use node:tty instead." },
+          { "name": "url", "message": "Please use node:url instead." },
+          { "name": "util", "message": "Please use node:util instead." },
+          { "name": "v8", "message": "Please use node:v8 instead." },
+          { "name": "vm", "message": "Please use node:vm instead." },
+          { "name": "zlib", "message": "Please use node:zlib instead." },
+
+          // React does not need to be imported as `import React from "react"`.
+          // Using useHook() instead of React.useHook() makes tree shaking easier.
+          {
+            "name": "react",
+            "importNames": ["default"],
+            "message": "Please use named imports for hooks and other react exports (e.g. useState instead of React.useState). You do not need to import the \"React\" global to render JSX."
+          }
+        ],
+        "patterns": [
+          // Even the moment.js team recommends not to use moment anymore.
+          { "group": ["moment*"], "message": "Please use the useLocaleFormat hook or the Intl API instead." },
+
+          // Outdated, tightly-coupling or just straight up bad dependencies - We really don't want these in the codebase.
+          {
+            "group": [
+              "@coreui/*",
+              "axios",
+              "bootstrap",
+              "*bootstrap*",
+              "chart.js",
+              "chartjs-*",
+              "core-js",
+              "history",
+              "is_js",
+              "jwt-decode",
+              "local-storage",
+              "node-sass",
+              "prop-types",
+              "query-string",
+              "react-chartjs2",
+              "react-dates",
+              "react-dates-presets",
+              "react-helmet",
+              "reactstrap",
+              "spinkit",
+              "underscore"
+            ],
+            "message": "We really don't want that dependency in the codebase."
+          }
+        ]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      // Overrides for npm scripts and .js config files
+      "files": ["*.cjs", "*.mjs", ".js", "*.cts", "*.ctsx"],
+      "env": {
+        "node": true
+      }
+    },
+    {
+      // Overrides for TypeScript files
+      "files": ["*.ts", "*.tsx", "*.mts", "*.mtsx", "vite.config.ts", "vitest.config.ts"],
+      "extends": ["plugin:@typescript-eslint/recommended", "plugin:@typescript-eslint/recommended-requiring-type-checking"],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": { "project": ["./tsconfig.lint.json"] },
+      "rules": {
+        "no-unused-vars": "off",
+        "@typescript-eslint/ban-types": [
+          "error",
+          {
+            "extendDefaults": true,
+            // Disabled, since the rule falsly parses `const r: Record<string, number> = {};` as type `{}`.
+            "types": { "{}": false }
+          }
+        ],
+        "@typescript-eslint/consistent-type-exports": [
+          "warn",
+          {
+            "fixMixedExportsWithInlineTypeSpecifier": true
+          }
+        ],
+        "@typescript-eslint/consistent-type-imports": [
+          // Set to "error" to fix all imports as once via `npm run lint-fix`
+          "off",
+          {
+            "prefer": "type-imports",
+            "fixStyle": "inline-type-imports",
+            "disallowTypeAnnotations": false
+          }
+        ],
+        "@typescript-eslint/no-empty-function": ["error", { "allow": ["arrowFunctions"] }],
+        "@typescript-eslint/no-inferrable-types": ["error", { "ignoreParameters": true, "ignoreProperties": true }],
+        "@typescript-eslint/no-misused-promises": [
+          "error",
+          {
+            "checksVoidReturn": {
+              "arguments": false,
+              "attributes": false
+            }
+          }
+        ],
+        "@typescript-eslint/no-namespace": ["error", { "allowDeclarations": true, "allowDefinitionFiles": true }],
+        "@typescript-eslint/no-this-alias": ["off"],
+        "@typescript-eslint/no-unused-vars": [
+          "warn",
+          {
+            "varsIgnorePattern": "^_",
+            "argsIgnorePattern": "^_",
+            "destructuredArrayIgnorePattern": "^_"
+          }
+        ],
+        // Disabled for now. "allowString" does not seem to work.
+        "@typescript-eslint/strict-boolean-expressions": [
+          "warn",
+          {
+            "allowNullableObject": true,
+            "allowNullableString": true
+          }
+        ]
+      }
+    },
+    {
+      // Overrides for tests
+      "files": ["*.test.ts", "*.test.tsx", "packages/utilities/testing/**"],
+      "plugins": ["vitest"],
+      "extends": ["plugin:vitest/all"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-empty-function": "off",
+        "@typescript-eslint/no-unsafe-argument": "off",
+        "@typescript-eslint/require-await": "off",
+        "@typescript-eslint/unbound-method": "off",
+        "no-empty-function": "off",
+        "no-lone-blocks": "off",
+        "react/display-name": "off",
+
+        // https://github.com/veritem/eslint-plugin-vitest/tree/main/src/rules
+        "vitest/consistent-test-it": [
+          "error",
+          {
+            "fn": "test",
+            "withinDescribe": "test"
+          }
+        ],
+        "vitest/expect-expect": "off",
+        "vitest/max-expects": "off",
+        "vitest/max-nested-describe": ["error", { "max": 2 }],
+        "vitest/no-conditional-in-test": "off",
+        "vitest/no-conditional-tests": "off",
+        "vitest/no-focused-tests": "warn",
+        "vitest/no-hooks": "off",
+        "vitest/no-large-snapshots": ["warn", { "maxSize": 256 }],
+        "vitest/no-identical-title": "warn",
+        "vitest/no-standalone-expect": [
+          "warn",
+          {
+            "additionalTestBlockFunctions": ["slowTest"]
+          }
+        ],
+        "vitest/prefer-called-with": "off",
+        "vitest/prefer-hooks-on-top": "warn",
+        "vitest/prefer-lowercase-title": ["warn", { "ignoreTopLevelDescribe": true }],
+        "vitest/prefer-strict-equal": "off",
+        "vitest/prefer-to-be": "warn",
+        "vitest/prefer-to-be-truthy": "off",
+        "vitest/prefer-to-be-falsy": "off",
+        "vitest/preferMockPromiseShorthand": "warn",
+        "vitest/require-hook": [
+          "warn",
+          {
+            "allowedFunctionCalls": ["slowTest"]
+          }
+        ],
+        "vitest/require-top-level-describe": "off"
+      }
+    }
+  ]
+}
