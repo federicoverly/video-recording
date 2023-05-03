@@ -5,7 +5,7 @@ import './index.css';
 import { ProvideUser } from './contexts/ProvideUser.tsx';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import ErrorPage from './ErrorPage.tsx';
-import { Content } from './routes/content.tsx';
+import { Content } from './routes/Content.tsx';
 
 const router = createBrowserRouter([
   {

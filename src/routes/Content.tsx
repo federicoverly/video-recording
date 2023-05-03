@@ -1,7 +1,7 @@
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { useAuth } from '../contexts/useAuth';
 import { db } from '../../utils/firebaseConfig';
-import { FormEvent, useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../../utils/firebaseConfig';
 import { signOut } from 'firebase/auth';
@@ -12,7 +12,7 @@ export interface Videos {
   users: string[];
 }
 
-export const Content = () => {
+export function Content() {
   const [videos, setVideos] = useState<Videos[]>([]);
   const { user, setUser } = useAuth();
 
@@ -33,7 +33,7 @@ export const Content = () => {
       .catch(error => {
         console.log(error);
       });
-  }, []);
+  }, [user?.email]);
 
   const logOut = useCallback(() => {
     signOut(auth)
@@ -61,6 +61,6 @@ export const Content = () => {
       <button onClick={logOut}>Logout</button>
     </>
   );
-};
+}
 
 Content.displayName = 'Content';
