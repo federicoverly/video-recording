@@ -1,0 +1,33 @@
+.container {
+  /* width: 100vw; */
+  background-color: red;
+  color: black;
+  height: 5rem;
+  padding: 0rem 2rem;
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  flex: 2;
+}
+
+.links {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  gap: 1.5rem;
+}
+
+.login {
+  display: flex;
+  flex: 0.2;
+}
+
+.loginButton {
+  width: 6rem;
+}
