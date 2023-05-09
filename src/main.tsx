@@ -5,8 +5,8 @@ import { ProvideUser } from './contexts/ProvideUser.tsx';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import ErrorPage from './ErrorPage.tsx';
 import { Content } from './routes/Content.tsx';
-import Login from './routes/Login.tsx';
 import SignUp from './routes/SignUp/SignUp.tsx';
+import Login from './routes/Login/Login.tsx';
 
 const router = createBrowserRouter([
   {
