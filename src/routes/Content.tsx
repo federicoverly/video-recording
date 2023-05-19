@@ -50,19 +50,16 @@ export function Content() {
       });
   }, [navigate, setUser]);
 
-  const videoRef = ref(storage, 'gpA3a4siIfDeSrU2WGXd');
-
   const downloadVideo = useCallback(() => {
     getDownloadURL(ref(storage, 'recordings/2c620823-b25d-4f06-9d5f-4500484ae69d.mp4'))
       .then(url => {
-        // `url` is the download URL for 'images/stars.jpg'
-
         // This can be downloaded directly:
         const xhr = new XMLHttpRequest();
         xhr.responseType = 'blob';
-        xhr.onload = event => {
-          const blob = xhr.response;
-        };
+        // xhr.onload = event => {
+        //   const blob = xhr.response;
+        // };
+        xhr.onload;
         xhr.open('GET', url);
         xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
         xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
@@ -73,13 +70,6 @@ export function Content() {
           'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
         );
         xhr.send();
-        console.log('all un');
-
-        // Or inserted into an <img> element
-        const button = document.getElementById('myButton');
-        if (button) {
-          button.setAttribute('src', url);
-        }
       })
       .catch(error => {
         console.log(error);
@@ -116,3 +106,5 @@ function downloadUrl(url: string, fileName: string) {
   link.click();
   document.body.removeChild(link);
 }
+
+void downloadUrl;
