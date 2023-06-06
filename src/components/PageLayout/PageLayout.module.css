@@ -3,9 +3,8 @@
   line-height: 1.5;
   font-weight: 400;
 
-  width: 100vw;
-  height: 100vh;
-
+  min-width: 100vw;
+  min-height: 100vh;
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
@@ -18,8 +17,6 @@
     'header' 50px
     'content' 1fr
     'footer' 50px / 1fr;
-  width: 100vw;
-  height: 100vh;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -30,8 +27,6 @@
 
 .navbar {
   grid-area: header;
-  /* position: sticky;
-  z-index: 1; */
 }
 
 .content {

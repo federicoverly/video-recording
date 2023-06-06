@@ -4,9 +4,10 @@ import App from './App.tsx';
 import { ProvideUser } from './contexts/ProvideUser.tsx';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import ErrorPage from './ErrorPage.tsx';
-import { Content } from './routes/Content.tsx';
+import { Content } from './routes/Content/Content.tsx';
 import SignUp from './routes/SignUp/SignUp.tsx';
 import Login from './routes/Login/Login.tsx';
+import { VideoDetails } from './routes/VideoDetails/VideoDetails.tsx';
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
   {
     path: 'content',
     element: <Content />
+  },
+  {
+    path: 'video/:id',
+    element: <VideoDetails />
   }
 ]);
 

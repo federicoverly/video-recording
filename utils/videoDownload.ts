@@ -1,4 +1,4 @@
-const toTimeString = (sec: string | number, showMilliSeconds = true) => {
+export const toTimeString = (sec: string | number, showMilliSeconds = true) => {
   const secAsNumb: number = typeof sec === 'number' ? sec : parseFloat(sec);
   let hours: string | number = Math.floor(secAsNumb / 3600);
   let minutes: string | number = Math.floor((secAsNumb - hours * 3600) / 60);
@@ -20,8 +20,8 @@ const toTimeString = (sec: string | number, showMilliSeconds = true) => {
   );
 };
 
-const readFileAsBase64 = async (file: Blob) => {
-  return new Promise((resolve, reject) => {
+export const readFileAsBase64 = async (file: Blob) => {
+  return new Promise<string | ArrayBuffer | null>((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => {
       resolve(reader.result);
@@ -31,11 +31,9 @@ const readFileAsBase64 = async (file: Blob) => {
   });
 };
 
-const download = (url: string) => {
+export const download = (url: string) => {
   const link = document.createElement('a');
   link.href = url;
   link.setAttribute('download', '');
   link.click();
 };
-
-export { toTimeString, readFileAsBase64, download };
