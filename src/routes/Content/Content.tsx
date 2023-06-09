@@ -16,6 +16,8 @@ export function Content() {
 
   const videos = useVideos(user?.email);
 
+  console.log(videos);
+
   return (
     <PageLayout>
       <VideosContainer videos={videos.data} />

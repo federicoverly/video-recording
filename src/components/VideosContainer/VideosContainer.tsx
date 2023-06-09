@@ -7,7 +7,7 @@ interface VideosContainerProps {
 }
 
 export function VideosContainer({ videos }: VideosContainerProps) {
-  if (!videos) return null;
+  if (!videos || videos.length === 0) return null;
 
   console.log(videos);
 
