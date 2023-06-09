@@ -1,3 +1,6 @@
+import { getDownloadURL, ref } from 'firebase/storage';
+import { storage } from './firebaseConfig';
+
 export const toTimeString = (sec: string | number, showMilliSeconds = true) => {
   const secAsNumb: number = typeof sec === 'number' ? sec : parseFloat(sec);
   let hours: string | number = Math.floor(secAsNumb / 3600);
@@ -36,4 +39,61 @@ export const download = (url: string) => {
   link.href = url;
   link.setAttribute('download', '');
   link.click();
+};
+
+export const downloadVideo = () => {
+  getDownloadURL(ref(storage, '/recordings/2c620823-b25d-4f06-9d5f-4500484ae69d.mp4'))
+    .then(url => {
+      // This can be downloaded directly:
+      const xhr = new XMLHttpRequest();
+      xhr.responseType = 'blob';
+      // xhr.onload = event => {
+      //   const blob = xhr.response;
+      // };
+      xhr.onload = event => {
+        void event;
+        const a = document.createElement('a');
+        a.href = window.URL.createObjectURL(xhr.response);
+        a.download = 'someFileName';
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click(); //Simulates a click event
+        const blob = xhr.response;
+        void blob;
+      };
+      xhr.addEventListener('load', blob => console.log(blob));
+
+      xhr.open('GET', url);
+      // xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+      xhr.send();
+
+      // const a = document.getElementById('mya');
+      // a && a.setAttribute('href', url);
+    })
+    .catch(error => {
+      // A full list of error codes is available at
+      // https://firebase.google.com/docs/storage/web/handle-errors
+      switch (error.code) {
+        case 'storage/object-not-found':
+          // File doesn't exist
+          console.log('file doesnt exist');
+          break;
+        case 'storage/unauthorized':
+          // User doesn't have permission to access the object
+          console.log('unauthorized');
+
+          break;
+        case 'storage/canceled':
+          // User canceled the upload
+          console.log('canceled');
+
+          break;
+
+        // ...
+
+        case 'storage/unknown':
+          // Unknown error occurred, inspect the server response
+          break;
+      }
+    });
 };

@@ -9,6 +9,8 @@ interface VideosContainerProps {
 export function VideosContainer({ videos }: VideosContainerProps) {
   if (!videos) return null;
 
+  console.log(videos);
+
   return (
     <div className={styles.container}>
       {videos.map(video => (

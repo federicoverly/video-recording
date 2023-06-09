@@ -1,6 +1,4 @@
-import { doc, getDoc } from 'firebase/firestore';
 import { BaseSyntheticEvent, useCallback, useLayoutEffect, useState } from 'react';
-import { db } from '../../../utils/firebaseConfig';
 import { Video } from '../Content/Content';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PageLayout } from '../../components/PageLayout/PageLayout';
@@ -11,6 +9,7 @@ import { TrimmedVideo } from '../../components/TrimmedVideo/TrimmedVideo';
 import { Button } from '../../components/Button/Button';
 import { RangeInput } from '../../components/RangeInput/RangeInput';
 import { useQuery } from 'react-query';
+import { useVideo } from '../../queries/queries';
 
 export function VideoDetails() {
   const FF = createFFmpeg({});
@@ -24,25 +23,7 @@ export function VideoDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const getVideo = useCallback(async () => {
-    if (id === undefined) return;
-    const docRef = doc(db, 'recordedVideos', id);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      return {
-        id: docSnap.id,
-        url: docSnap.data()?.url,
-        users: docSnap.data()?.users,
-        location: docSnap.data()?.location,
-        timestamp: docSnap.data()?.timestamp
-      };
-    } else {
-      console.log('No such document!');
-    }
-  }, [id]);
-
-  const video = useQuery<Video | undefined>(['video', id], () => getVideo());
+  const video = useVideo(id);
 
   const getThumbnails = useCallback(
     async ({ duration, inputVideoFile }: { duration: number; inputVideoFile: Video | undefined }) => {
