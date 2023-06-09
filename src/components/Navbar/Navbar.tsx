@@ -30,6 +30,8 @@ export const Navbar = ({ className }: NavbarProps) => {
       });
   }, [navigate, setUser]);
 
+  console.log(user);
+
   return (
     <div className={classNames(styles.container, className)}>
       <div className={styles.logo}>Logo will be here</div>
