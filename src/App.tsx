@@ -13,11 +13,9 @@ function App() {
     }
   }, [user, navigate]);
   return (
-    <>
-      <PageLayout>
-        <div>More content will be here</div>
-      </PageLayout>
-    </>
+    <PageLayout>
+      <div>More content will be here</div>
+    </PageLayout>
   );
 }
 

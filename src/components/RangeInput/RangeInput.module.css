@@ -1,0 +1,115 @@
+.rangePack {
+  position: relative;
+  margin-top: 4rem;
+  margin-bottom: 1.5rem;
+  height: 10rem;
+  display: flex;
+  justify-content: center;
+}
+
+.imageBox {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  border: 2px solid red;
+  position: relative;
+  height: 6rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border-radius: 10px;
+}
+
+.imageBox > input {
+  pointer-events: none;
+  position: absolute;
+  appearance: none;
+  opacity: 0;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  top: 50%;
+  background-color: transparent;
+}
+
+.imageBox > img {
+  height: 100px;
+  width: 100px;
+  object-fit: cover;
+}
+
+.clipBox {
+  border: 10px solid red;
+  position: absolute;
+  height: 110%;
+  box-shadow: 2000 0 5px 10px red, -400px 0 5px -10px red;
+  transform: translateY(-5%);
+  border-radius: 10px;
+}
+.clipBox::before,
+.clipBox::after {
+  position: absolute;
+  top: 90%;
+  transform: translateY(104%);
+  background-color: #000;
+  color: #fff;
+  border-radius: 5px;
+  padding: 0.7rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.clipBox::before {
+  content: attr(data-start);
+  left: 0;
+  transform: translateY(90%) translateX(-50%);
+}
+.clipBox::after {
+  content: attr(data-end);
+  right: 0;
+  transform: translateY(90%) translateX(50%);
+}
+
+.clipBoxDes {
+  width: 1.3rem;
+  height: 100%;
+  background-color: red;
+  position: absolute;
+  z-index: -1;
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  justify-content: center;
+}
+
+.clipBoxDes:nth-child(1) {
+  left: 0;
+  transform: translateX(-70%);
+  border-radius: 10px 0 0 10px;
+}
+.clipBoxDes:nth-child(2) {
+  right: 0;
+  transform: translateX(70%);
+  flex-flow: row-reverse;
+  border-radius: 0 10px 10px 0;
+}
+.clipBoxDes::before,
+.clipBoxDes::after {
+  content: '';
+  width: 3px;
+  background-color: #f2f2f2;
+  border-radius: 100px;
+}
+.clipBoxDes::before {
+  height: 60%;
+}
+.clipBoxDes::after {
+  height: 40%;
+}
+
+.range::-webkit-slider-thumb {
+  appearance: none;
+  pointer-events: all;
+  width: 30px;
+  height: 200px;
+  background: pink;
+  cursor: ew-resize;
+}

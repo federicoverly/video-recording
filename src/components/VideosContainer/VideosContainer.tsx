@@ -3,10 +3,12 @@ import { VideoCard } from '../VideoCard/VideoCard';
 import styles from './VideosContainer.module.css';
 
 interface VideosContainerProps {
-  videos: Video[];
+  videos: Video[] | undefined;
 }
 
 export function VideosContainer({ videos }: VideosContainerProps) {
+  if (!videos) return null;
+
   return (
     <div className={styles.container}>
       {videos.map(video => (

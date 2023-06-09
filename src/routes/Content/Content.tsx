@@ -1,10 +1,11 @@
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { useAuth } from '../../contexts/useAuth';
 import { db, storage } from '../../../utils/firebaseConfig';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback } from 'react';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { VideosContainer } from '../../components/VideosContainer/VideosContainer';
 import { PageLayout } from '../../components/PageLayout/PageLayout';
+import { useQuery } from 'react-query';
 
 export interface Video {
   id: string;
@@ -15,18 +16,18 @@ export interface Video {
 }
 
 export function Content() {
-  const [videos, setVideos] = useState<Video[]>([]);
+  // const [videos, setVideos] = useState<Video[]>([]);
 
   const { user } = useAuth();
 
-  useEffect(() => {
-    if (!user?.email) return;
+  const getVideos = useCallback(() => {
     const q = query(collection(db, 'recordedVideos'), where('users', 'array-contains', user?.email));
 
     const querySnapshot = getDocs(q);
+    let data: Video[] = [];
     querySnapshot
       .then(res => {
-        const data: Video[] = res.docs.map(video => {
+        const backendData: Video[] = res.docs.map(video => {
           return {
             id: video.id,
             url: video.data().url,
@@ -36,12 +37,40 @@ export function Content() {
           };
         });
 
-        setVideos(data);
+        data = backendData;
       })
       .catch(error => {
         console.log(error);
       });
-  }, [user]);
+
+    return data;
+  }, [user?.email]);
+
+  const videos = useQuery<Video[] | undefined>(['videos', user], () => getVideos());
+
+  // useEffect(() => {
+  //   if (!user?.email) return;
+  //   const q = query(collection(db, 'recordedVideos'), where('users', 'array-contains', user?.email));
+
+  //   const querySnapshot = getDocs(q);
+  //   querySnapshot
+  //     .then(res => {
+  //       const data: Video[] = res.docs.map(video => {
+  //         return {
+  //           id: video.id,
+  //           url: video.data().url,
+  //           users: video.data().users,
+  //           location: video.data().location,
+  //           timestamp: video.data().timestamp
+  //         };
+  //       });
+
+  //       setVideos(data);
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // }, [user]);
 
   const downloadVideo = useCallback(() => {
     getDownloadURL(ref(storage, '/recordings/2c620823-b25d-4f06-9d5f-4500484ae69d.mp4'))
@@ -104,7 +133,7 @@ export function Content() {
 
   return (
     <PageLayout>
-      <VideosContainer videos={videos} />
+      <VideosContainer videos={videos.data} />
     </PageLayout>
   );
 }

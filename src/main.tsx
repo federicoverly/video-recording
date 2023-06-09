@@ -8,6 +8,7 @@ import { Content } from './routes/Content/Content.tsx';
 import SignUp from './routes/SignUp/SignUp.tsx';
 import Login from './routes/Login/Login.tsx';
 import { VideoDetails } from './routes/VideoDetails/VideoDetails.tsx';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 const router = createBrowserRouter([
   {
@@ -33,10 +34,31 @@ const router = createBrowserRouter([
   }
 ]);
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      cacheTime: 15 * 60000,
+      keepPreviousData: false,
+      refetchInterval: 15 * 60000,
+      refetchIntervalInBackground: false,
+      refetchOnMount: true,
+      refetchOnReconnect: true,
+      refetchOnWindowFocus: true,
+      retryOnMount: true,
+      staleTime: 4 * 60000
+    },
+    mutations: {
+      retry: 0
+    }
+  }
+});
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <ProvideUser>
-      <RouterProvider router={router} />
-    </ProvideUser>
+    <QueryClientProvider client={queryClient}>
+      <ProvideUser>
+        <RouterProvider router={router} />
+      </ProvideUser>
+    </QueryClientProvider>
   </React.StrictMode>
 );
