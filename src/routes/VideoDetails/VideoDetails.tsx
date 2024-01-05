@@ -5,7 +5,7 @@ import { Video } from '../Content/Content';
 import { useParams } from 'react-router-dom';
 import { PageLayout } from '../../components/PageLayout/PageLayout';
 import { SelectedVideo } from '../../components/VideoDetails/SelectedVideo';
-import { download, readFileAsBase64 } from '../../../utils/videoDownload';
+import { download } from '../../../utils/videoDownload';
 import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
 import { TrimmedVideo } from '../../components/TrimmedVideo/TrimmedVideo';
 import { Button } from '../../components/Button/Button';
