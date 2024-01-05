@@ -11,7 +11,7 @@ interface RangeInputProps {
   duration: number;
 }
 
-export function RangeInput({ thumbnails, rEnd, rStart, handleUpdaterStart, handleUpdaterEnd, loading, duration }: RangeInputProps) {
+export function RangeInput({ thumbnails, rEnd, rStart, loading, duration }: RangeInputProps) {
   const RANGE_MAX = 100;
   if (loading || !thumbnails) {
     return (

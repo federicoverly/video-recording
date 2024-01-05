@@ -1,11 +1,11 @@
 import { doc, getDoc } from 'firebase/firestore';
-import { FormEventHandler, useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { db } from '../../../utils/firebaseConfig';
 import { Video } from '../Content/Content';
 import { useParams } from 'react-router-dom';
 import { PageLayout } from '../../components/PageLayout/PageLayout';
 import { SelectedVideo } from '../../components/VideoDetails/SelectedVideo';
-import { download, readFileAsBase64, toTimeString } from '../../../utils/videoDownload';
+import { download, readFileAsBase64 } from '../../../utils/videoDownload';
 import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
 import { TrimmedVideo } from '../../components/TrimmedVideo/TrimmedVideo';
 import { Button } from '../../components/Button/Button';
@@ -63,6 +63,7 @@ export function VideoDetails() {
 
     const startTime = Number(((rStart / 100) * videoDuration).toFixed(2));
     const offset = ((rEnd / 100) * videoDuration - startTime).toFixed(2);
+    void offset;
     await FF.load();
     try {
       FF.FS('writeFile', 'TrimmedVideo', await fetchFile(inputVideoFile.url));
@@ -136,6 +137,9 @@ export function VideoDetails() {
   //   };
   // };
 
+  void setVideoDuration;
+  void setThumbnails;
+  void setThumbnailIsProcessing;
   return (
     <PageLayout>
       <SelectedVideo selectedVideo={inputVideoFile} id={id} />
