@@ -10,7 +10,7 @@ export default defineConfig({
       configureServer: server => {
         server.middlewares.use((_req, res, next) => {
           res.setHeader('Cross-Origin-Resource-Policy', 'same-site');
-          res.setHeader('Cross-Origin-Embedder-Policy', 'credentialless');
+          res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
           res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
           next();
         });
