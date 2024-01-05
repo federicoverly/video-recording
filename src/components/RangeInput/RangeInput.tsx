@@ -1,4 +1,3 @@
-import { Dispatch, FormEvent, SetStateAction } from 'react';
 import { toTimeString } from '../../../utils/videoDownload';
 import { Thumbnail } from '../../routes/VideoDetails/VideoDetails';
 
@@ -6,8 +5,8 @@ interface RangeInputProps {
   thumbnails: (Thumbnail | string | ArrayBuffer | null)[] | undefined;
   rEnd: number;
   rStart: number;
-  handleUpdaterStart: ({ target: { value } }: { target: { value: number } }) => void;
-  handleUpdaterEnd: ({ target: { value } }: { target: { value: number } }) => void;
+  handleUpdaterStart?: ({ target: { value } }: { target: { value: number } }) => void;
+  handleUpdaterEnd?: ({ target: { value } }: { target: { value: number } }) => void;
   loading: boolean;
   duration: number;
 }
@@ -49,8 +48,8 @@ export function RangeInput({ thumbnails, rEnd, rStart, handleUpdaterStart, handl
             <span className="clip_box_des"></span>
             <span className="clip_box_des"></span>
           </div>
-          <input className="range" type="range" min={0} max={RANGE_MAX} onInput={handleUpdaterStart} value={rStart} />
-          <input className="range" type="range" min={0} max={RANGE_MAX} onInput={handleUpdaterEnd} value={rEnd} />
+          {/* <input className="range" type="range" min={0} max={RANGE_MAX} onInput={handleUpdaterStart} value={rStart} />
+          <input className="range" type="range" min={0} max={RANGE_MAX} onInput={handleUpdaterEnd} value={rEnd} /> */}
         </div>
       </div>
     </>

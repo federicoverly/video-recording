@@ -66,7 +66,7 @@ export function VideoDetails() {
     await FF.load();
     try {
       FF.FS('writeFile', 'TrimmedVideo', await fetchFile(inputVideoFile.url));
-      await FF.run('-ss', toTimeString(startTime), '-i', 'TrimmedVideo', '-t', toTimeString(offset), '-c:v', 'copy', 'ping.mp4');
+      await FF.run('-ss', '5', '-i', 'TrimmedVideo', '-t', '10', '-c:v', 'copy', 'ping.mp4');
       const data = FF.FS('readFile', 'ping.mp4');
       const dataURL = await readFileAsBase64(new Blob([data.buffer], { type: 'video/mp4' }));
       setTrimmedVideoFile(dataURL);
@@ -77,51 +77,51 @@ export function VideoDetails() {
     }
   }, [FF, id, inputVideoFile, rEnd, rStart, videoDuration]);
 
-  const getThumbnails = useCallback(
-    async ({ duration, inputVideoFile }: { duration: number; inputVideoFile: Video }) => {
-      if (!inputVideoFile) return;
-      if (!FF.isLoaded()) await FF.load();
-      setThumbnailIsProcessing(true);
-      const MAX_NUMBER_OF_IMAGES = 15;
-      const NUMBER_OF_IMAGES = duration < MAX_NUMBER_OF_IMAGES ? duration : 15;
-      let offset = duration === MAX_NUMBER_OF_IMAGES ? 1 : duration / NUMBER_OF_IMAGES;
+  // const getThumbnails = useCallback(
+  //   async ({ duration, inputVideoFile }: { duration: number; inputVideoFile: Video }) => {
+  //     if (!inputVideoFile) return;
+  //     if (!FF.isLoaded()) await FF.load();
+  //     setThumbnailIsProcessing(true);
+  //     const MAX_NUMBER_OF_IMAGES = 15;
+  //     const NUMBER_OF_IMAGES = 20 < MAX_NUMBER_OF_IMAGES ? 20 : 15;
+  //     let offset = 1;
 
-      FF.FS('writeFile', 'example', await fetchFile(inputVideoFile.url));
-      const arrayOfImageURIs = [];
-      for (let i = 0; i < NUMBER_OF_IMAGES; i++) {
-        const startTimeInSecs = toTimeString(Math.round(i * offset));
-        if (Number(startTimeInSecs) + offset > duration && offset > 1) {
-          offset = 0;
-        }
-        try {
-          await FF.run('-ss', startTimeInSecs, '-i', 'example', '-t', '00:00:1.000', '-vf', `scale=150:-1`, `img${i}.png`);
-          const data = FF.FS('readFile', `img${i}.png`);
-          const blob = new Blob([data.buffer], { type: 'image/png' });
-          const dataURI = await readFileAsBase64(blob);
-          arrayOfImageURIs.push(dataURI);
-          FF.FS('unlink', `img${i}.png`);
-        } catch (error) {
-          console.log({ message: error });
-        }
-      }
-      setThumbnailIsProcessing(false);
-      return arrayOfImageURIs;
-    },
-    [FF]
-  );
+  //     FF.FS('writeFile', 'example', await fetchFile(inputVideoFile.url));
+  //     const arrayOfImageURIs = [];
+  //     for (let i = 0; i < NUMBER_OF_IMAGES; i++) {
+  //       const startTimeInSecs = toTimeString(Math.round(i * offset));
+  //       if (Number(startTimeInSecs) + offset > duration && offset > 1) {
+  //         offset = 0;
+  //       }
+  //       try {
+  //         await FF.run('-ss', startTimeInSecs, '-i', 'example', '-t', '00:00:1.000', '-vf', `scale=150:-1`, `img${i}.png`);
+  //         const data = FF.FS('readFile', `img${i}.png`);
+  //         const blob = new Blob([data.buffer], { type: 'image/png' });
+  //         const dataURI = await readFileAsBase64(blob);
+  //         arrayOfImageURIs.push(dataURI);
+  //         FF.FS('unlink', `img${i}.png`);
+  //       } catch (error) {
+  //         console.log({ message: error });
+  //       }
+  //     }
+  //     setThumbnailIsProcessing(false);
+  //     return arrayOfImageURIs;
+  //   },
+  //   [FF]
+  // );
 
-  const handleLoadedData = useCallback(async () => {
-    if (!inputVideoFile) return;
-    const thumbnails = await getThumbnails({ duration: videoDuration, inputVideoFile });
-    setThumbnails(thumbnails);
-  }, [getThumbnails, inputVideoFile, videoDuration]);
+  // const handleLoadedData = useCallback(async () => {
+  //   if (!inputVideoFile) return;
+  //   const thumbnails = await getThumbnails({ duration: videoDuration, inputVideoFile });
+  //   setThumbnails(thumbnails);
+  // }, [getThumbnails, inputVideoFile, videoDuration]);
 
-  useEffect(() => {
-    if (id === undefined) return;
-    const video = document.getElementById(id) as HTMLVideoElement;
-    setVideoDuration(video.duration);
-    handleLoadedData();
-  }, [handleLoadedData, id]);
+  // useEffect(() => {
+  //   if (id === undefined) return;
+  //   const video = document.getElementById(id) as HTMLVideoElement;
+  //   setVideoDuration(video.duration);
+  //   // handleLoadedData();
+  // }, [id]);
 
   const downloadTrimmedVideo = useCallback(() => {
     if (typeof trimmedVideoFile === 'string') {
@@ -130,11 +130,11 @@ export function VideoDetails() {
     return;
   }, [trimmedVideoFile]);
 
-  const handleUpdateRange = (func: FormEventHandler<HTMLInputElement>) => {
-    return ({ target: { value } }) => {
-      func(value);
-    };
-  };
+  // const handleUpdateRange = (func: FormEventHandler<HTMLInputElement>) => {
+  //   return ({ target: { value } }) => {
+  //     func(value);
+  //   };
+  // };
 
   return (
     <PageLayout>
@@ -146,8 +146,8 @@ export function VideoDetails() {
         thumbnails={thumbnails}
         rEnd={rEnd}
         rStart={rStart}
-        handleUpdaterStart={handleUpdateRange(setRstart)}
-        handleUpdaterEnd={handleUpdateRange(setRend)}
+        // handleUpdaterStart={handleUpdateRange(setRstart)}
+        // handleUpdaterEnd={handleUpdateRange(setRend)}
         loading={thumbnailIsProcessing}
         duration={videoDuration}
       />
