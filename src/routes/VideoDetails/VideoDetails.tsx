@@ -69,7 +69,7 @@ export function VideoDetails() {
       FF.FS('writeFile', 'TrimmedVideo', await fetchFile(inputVideoFile.url));
       await FF.run('-ss', '5', '-i', 'TrimmedVideo', '-t', '10', '-c:v', 'copy', 'ping.mp4');
       const data = FF.FS('readFile', 'ping.mp4');
-      const dataURL = await readFileAsBase64(new Blob([data.buffer], { type: 'video/mp4' }));
+      const dataURL = await URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
       setTrimmedVideoFile(dataURL);
     } catch (error) {
       console.log(error);
